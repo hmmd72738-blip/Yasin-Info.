@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yasin Info.</title>
+  <style>
+    :root {
+      --bg-main: #050816;
+      --card: rgba(15, 23, 42, 0.96);
+      --card-soft: rgba(15, 23, 42, 0.86);
+      --border: rgba(148, 163, 184, 0.5);
+      --accent-1: #38bdf8;
+      --accent-2: #a855f7;
+      --accent-3: #fb7185;
+      --accent-4: #22c55e;
+      --accent-5: #f97316;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --danger: #fb7185;
+      --radius-xl: 20px;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      --fast: 0.18s ease-out;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, #1d283a 0, transparent 60%),
+        radial-gradient(circle at bottom right, #4c1d95 0, transparent 60%),
+        var(--bg-main);
+      background-size: 200% 200%;
+      animation: bgMove 25s linear infinite;
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+
+    #app {
+      width: 100%;
+      max-width: 1100px;
+      padding: 16px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ---------- Header ---------- */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-pill {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 160deg,
+        #22c55e,
+        #38bdf8,
+        #a855f7,
+        #fb7185,
+        #f97316,
+        #22c55e
+      );
+      background-size: 220% 220%;
+      animation: logoSpin 10s linear infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 26px rgba(56, 189, 248, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes logoSpin {
+      0% { background-position: 0% 0%; transform: rotate(0deg); }
+      50% { background-position: 100% 100%; transform: rotate(180deg); }
+      100% { background-position: 0% 0%; transform: rotate(360deg); }
+    }
+
+    .logo-pill span {
+      font-size: 22px;
+      font-weight: 600;
+      color: #f9fafb;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-pill img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      display: none;
+    }
+
+    .brand-main {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 19px;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      backdrop-filter: blur(15px);
+    }
+
+    .button,
+    .button-ghost {
+      border-radius: 999px;
+      padding: 7px 14px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform var(--fast), box-shadow var(--fast),
+        background var(--fast), border-color var(--fast), color var(--fast),
+        opacity var(--fast);
+    }
+
+    .button {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #f9fafb;
+      box-shadow: 0 12px 25px rgba(56, 189, 248, 0.5);
+      border: 1px solid transparent;
+    }
+    .button:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.7);
+    }
+    .button:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 8px 18px rgba(56, 189, 248, 0.5);
+    }
+
+    .button-ghost {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border);
+      color: var(--text-soft);
+    }
+    .button-ghost:hover {
+      background: rgba(30, 64, 175, 0.95);
+      border-color: rgba(96, 165, 250, 0.95);
+      color: #e5f2ff;
+      transform: translateY(-1px);
+    }
+
+    /* ---------- Cards ---------- */
+
+    .card {
+      background: var(--card);
+      border-radius: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 20px 18px 18px;
+      backdrop-filter: blur(24px);
+    }
+
+    /* ---------- Login ---------- */
+
+    .login-inner {
+      max-width: 360px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .login-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .login-sub {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--text-soft);
+      text-align: left;
+    }
+
+    .input {
+      width: 100%;
+      margin-top: 4px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: border-color var(--fast), box-shadow var(--fast),
+        background var(--fast), transform var(--fast);
+    }
+
+    .input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
+      transform: translateY(-0.5px);
+    }
+
+    .input-error {
+      border-color: var(--danger) !important;
+      box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.8);
+    }
+
+    .error-text {
+      font-size: 11px;
+      color: var(--danger);
+      text-align: left;
+      min-height: 14px;
+    }
+
+    .footnote {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 12px;
+    }
+
+    /* ---------- Dashboard (boxes only) ---------- */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 920px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .header { flex-direction: column; align-items: flex-start; }
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      .card { padding: 18px 14px; }
+    }
+
+    .box-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      padding: 12px 10px;
+      background: var(--card-soft);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 120px;
+      overflow: hidden;
+    }
+
+    .box-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0% 0%, rgba(148, 163, 184, 0.4), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* ভিন্ন ভিন্ন এনিমেশন */
+    .box-card[data-color="cyan"] {
+      background-image:
+        radial-gradient(circle at 0% 0%, rgba(56,189,248,0.3), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(15,23,42,1), transparent 70%);
+      background-size: 180% 180%;
+      animation: boxCyan 14s ease-in-out infinite;
+    }
+    .box-card[data-color="purple"] {
+      background-image:
+        radial-gradient(circle at 0% 100%, rgba(168,85,247,0.35), transparent 60%),
+        radial-gradient(circle at 100% 0%, rgba(15,23,42,1), transparent 70%);
+      background-size: 180% 180%;
+      animation: boxPurple 16s ease-in-out infinite;
+    }
+    .box-card[data-color="pink"] {
+      background-image:
+        radial-gradient(circle at 20% 0%, rgba(251,113,133,0.35), transparent 60%),
+        radial-gradient(circle at 80% 100%, rgba(15,23,42,1), transparent 70%);
+      background-size: 180% 180%;
+      animation: boxPink 18s ease-in-out infinite;
+    }
+    .box-card[data-color="green"] {
+      background-image:
+        radial-gradient(circle at 0% 50%, rgba(34,197,94,0.35), transparent 60%),
+        radial-gradient(circle at 100% 50%, rgba(15,23,42,1), transparent 70%);
+      background-size: 180% 180%;
+      animation: boxGreen 15s ease-in-out infinite;
+    }
+    .box-card[data-color="orange"] {
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(249,115,22,0.4), transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(15,23,42,1), transparent 70%);
+      background-size: 180% 180%;
+      animation: boxOrange 17s ease-in-out infinite;
+    }
+
+    @keyframes boxCyan {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
+    }
+    @keyframes boxPurple {
+      0% { background-position: 100% 0%; }
+      50% { background-position: 0% 100%; }
+      100% { background-position: 100% 0%; }
+    }
+    @keyframes boxPink {
+      0% { background-position: 0% 100%; }
+      50% { background-position: 100% 0%; }
+      100% { background-position: 0% 100%; }
+    }
+    @keyframes boxGreen {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes boxOrange {
+      0% { background-position: 50% 0%; }
+      50% { background-position: 50% 100%; }
+      100% { background-position: 50% 0%; }
+    }
+
+    .box-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .box-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .box-label-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--accent-1);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+      flex-shrink: 0;
+    }
+
+    .box-icon-pill {
+      min-width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .box-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 3px;
+      margin-bottom: 2px;
+    }
+
+    .box-description {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.45;
+      max-height: 110px;
+      overflow: auto;
+      padding-right: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .box-description a {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .box-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 11px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .box-tag-pill {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .box-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.9);
+    }
+
+    .box-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .icon-button {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.96);
+      font-size: 11px;
+      padding: 3px 7px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-soft);
+      transition: background var(--fast), transform var(--fast),
+        border-color var(--fast), color var(--fast);
+    }
+
+    .icon-button:hover {
+      background: rgba(30, 64, 175, 0.96);
+      border-color: rgba(96, 165, 250, 0.95);
+      color: #e5f2ff;
+      transform: translateY(-1px);
+    }
+
+    .icon-button-danger:hover {
+      background: rgba(185, 28, 28, 0.95);
+      border-color: rgba(248, 113, 113, 0.95);
+      color: #fee2e2;
+    }
+
+    .empty-text {
+      grid-column: 1 / -1;
+      font-size: 12px;
+      color: var(--text-soft);
+      padding: 10px 4px 4px;
+    }
+
+    /* Color accents on dots/titles */
+    .box-card[data-color="cyan"] .box-label-dot,
+    .box-card[data-color="cyan"] .box-tag-dot {
+      background: var(--accent-1);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+    }
+    .box-card[data-color="purple"] .box-label-dot,
+    .box-card[data-color="purple"] .box-tag-dot {
+      background: var(--accent-2);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.9);
+    }
+    .box-card[data-color="pink"] .box-label-dot,
+    .box-card[data-color="pink"] .box-tag-dot {
+      background: var(--accent-3);
+      box-shadow: 0 0 12px rgba(251, 113, 133, 0.9);
+    }
+    .box-card[data-color="green"] .box-label-dot,
+    .box-card[data-color="green"] .box-tag-dot {
+      background: var(--accent-4);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+    }
+    .box-card[data-color="orange"] .box-label-dot,
+    .box-card[data-color="orange"] .box-tag-dot {
+      background: var(--accent-5);
+      box-shadow: 0 0 12px rgba(249, 115, 22, 0.9);
+    }
+
+    .box-card[data-color="cyan"] .box-title { color: #e0f2fe; }
+    .box-card[data-color="purple"] .box-title { color: #ede9fe; }
+    .box-card[data-color="pink"] .box-title { color: #ffe4e6; }
+    .box-card[data-color="green"] .box-title { color: #dcfce7; }
+    .box-card[data-color="orange"] .box-title { color: #ffedd5; }
+
+    /* Scrollbar */
+    .box-description::-webkit-scrollbar { width: 4px; }
+    .box-description::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.8);
+      border-radius: 999px;
+    }
+
+    /* ---------- Fullscreen Menu overlay ---------- */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(168,85,247,0.22), transparent 60%),
+                  rgba(3,7,18,0.95);
+      backdrop-filter: blur(18px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .overlay:not(.hidden) {
+      display: flex;
+    }
+
+    .menu-shell {
+      width: 100%;
+      height: 100%;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .menu-panel {
+      width: 100%;
+      height: 100%;
+      max-width: 460px;
+      border-radius: 24px;
+      background: rgba(15,23,42,0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 1px rgba(15,23,42,1), 0 32px 80px rgba(0,0,0,0.9);
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .menu-panel {
+        border-radius: 0;
+        max-width: none;
+      }
+    }
+
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .menu-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .menu-header-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .menu-body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .menu-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .menu-tab {
+      padding: 9px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.96);
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      justify-content: flex-start;
+      transition: background var(--fast), border-color var(--fast),
+        color var(--fast), box-shadow var(--fast), transform var(--fast);
+    }
+
+    .menu-tab span.icon {
+      font-size: 15px;
+    }
+
+    .menu-tab.active {
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.3), transparent 65%),
+                  rgba(15,23,42,0.98);
+      border-color: rgba(96,165,250,0.95);
+      color: #e5f2ff;
+      box-shadow: 0 10px 30px rgba(30,64,175,0.9);
+      transform: translateY(-1px);
+    }
+
+    .menu-pages {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .menu-page {
+      border-radius: 16px;
+      padding: 10px 10px 12px;
+      background: var(--card-soft);
+      border: 1px solid rgba(148,163,184,0.45);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: auto;
+    }
+
+    .menu-page h3 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .menu-page p {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .input-small {
+      font-size: 12px;
+      padding: 7px 9px;
+      border-radius: 10px;
+    }
+
+    .textarea-small {
+      min-height: 60px;
+      resize: vertical;
+    }
+
+    .color-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .color-pill {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: border-color var(--fast), transform var(--fast),
+        opacity var(--fast), box-shadow var(--fast);
+    }
+
+    .color-pill[data-color="cyan"] { background: var(--accent-1); }
+    .color-pill[data-color="purple"] { background: var(--accent-2); }
+    .color-pill[data-color="pink"] { background: var(--accent-3); }
+    .color-pill[data-color="green"] { background: var(--accent-4); }
+    .color-pill[data-color="orange"] { background: var(--accent-5); }
+
+    .color-pill.selected {
+      border-color: #e5e7eb;
+      opacity: 1;
+      transform: scale(1.08);
+      box-shadow: 0 0 14px rgba(248, 250, 252, 0.7);
+    }
+
+    .status-text {
+      font-size: 11px;
+      color: var(--text-soft);
+      min-height: 14px;
+    }
+    .status-text.ok { color: #4ade80; }
+    .status-text.err { color: var(--danger); }
+
+    .logout-text {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .logout-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo-pill">
+          <span id="brandAvatarInitial">Y</span>
+          <img id="brandAvatarImg" alt="Avatar" />
+        </div>
+        <div>
+          <div class="brand-main">Yasin Info.</div>
+          <div class="brand-sub" id="brandSub">Yasin · private workspace</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="pill">🔒 Private workspace</div>
+        <button id="menuButton" class="button-ghost hidden">☰ Menu</button>
+      </div>
+    </header>
+
+    <!-- Login -->
+    <section id="loginScreen" class="card">
+      <div class="login-inner">
+        <h1 class="login-title">Welcome back, Yasin</h1>
+        <p class="login-sub">
+          এখানে থাকবে শুধু তোমার ব্যক্তিগত বক্সগুলো। ঢুকতে আগে পাসওয়ার্ড দরকার।
+        </p>
+
+        <form id="loginForm" class="login-form">
+          <div>
+            <label for="passwordInput">Master password</label>
+            <input
+              id="passwordInput"
+              type="password"
+              class="input"
+              autocomplete="current-password"
+              placeholder="••••••••"
+            />
+          </div>
+          <div id="loginError" class="error-text"></div>
+          <button type="submit" class="button" style="width: 100%; justify-content: center;">
+            Enter workspace ✨
+          </button>
+        </form>
+
+        <p class="footnote">
+          ⚠ এই সিস্টেম শুধু তোমার ব্রাউজারে ডাটা রাখে (localStorage)। খুব সিকিউর কিছু রাখলে
+          পরে আলাদা সার্ভার-বেসড সিস্টেম বানানো ভালো।
+        </p>
+      </div>
+    </section>
+
+    <!-- Dashboard : শুধু বক্স -->
+    <section id="dashboard" class="card hidden">
+      <div id="boxGrid" class="grid"></div>
+    </section>
+
+    <!-- Fullscreen Menu -->
+    <div id="menuOverlay" class="overlay hidden">
+      <div class="menu-shell">
+        <div class="menu-panel">
+          <div class="menu-header">
+            <div>
+              <div class="menu-title">Control menu</div>
+              <div class="menu-header-sub">
+                প্রোফাইল, ইনফো বক্স, পাসওয়ার্ড, লগআউট – সব এখান থেকে কনট্রোল হবে।
+              </div>
+            </div>
+            <button id="closeMenuBtn" class="button-ghost" style="padding:5px 10px;font-size:11px;">
+              ✕ Close
+            </button>
+          </div>
+
+          <div class="menu-body">
+            <!-- চারটি বার -->
+            <div class="menu-tabs">
+              <button class="menu-tab active" data-page="profile">
+                <span class="icon">👤</span>
+                <span>প্রোফাইল</span>
+              </button>
+              <button class="menu-tab" data-page="boxes">
+                <span class="icon">🧱</span>
+                <span>ইনফরমেশন বক্স</span>
+              </button>
+              <button class="menu-tab" data-page="password">
+                <span class="icon">🔐</span>
+                <span>পাসওয়ার্ড</span>
+              </button>
+              <button class="menu-tab" data-page="logout">
+                <span class="icon">🚪</span>
+                <span>লগআউট</span>
+              </button>
+            </div>
+
+            <!-- পেজগুলো -->
+            <div class="menu-pages">
+              <!-- Profile page -->
+              <div class="menu-page" data-page="profile" id="menuPageProfile">
+                <h3>Profile settings</h3>
+                <p>নাম আর প্রোফাইল ছবি বদলালে হেডারের গোল লোগো আর সাবটাইটেলে আপডেট হবে।</p>
+                <form id="profileForm">
+                  <div class="field">
+                    <label for="profileNameInput">Display name</label>
+                    <input
+                      id="profileNameInput"
+                      type="text"
+                      class="input input-small"
+                      placeholder="তোমার নাম"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="profileAvatarInput">Profile picture URL</label>
+                    <input
+                      id="profileAvatarInput"
+                      type="text"
+                      class="input input-small"
+                      placeholder="যেমন: profile.jpg বা কোনো ইমেজ লিংক"
+                    />
+                  </div>
+                  <div class="status-text" id="profileStatus"></div>
+                  <button type="submit" class="button" style="width:100%;justify-content:center;">
+                    Save profile ✅
+                  </button>
+                </form>
+              </div>
+
+              <!-- Box creation page -->
+              <div class="menu-page hidden" data-page="boxes" id="menuPageBoxes">
+                <h3>New information box</h3>
+                <p>একটা বক্স মানে তোমার আলাদা একটা সেকশন – যেমন My web, Study plan ইত্যাদি।</p>
+
+                <div class="field">
+                  <label for="boxTitleInput">Title</label>
+                  <input
+                    id="boxTitleInput"
+                    class="input input-small"
+                    type="text"
+                    placeholder="যেমন: My web"
+                  />
+                </div>
+                <div class="field">
+                  <label for="boxTagInput">Tag / category</label>
+                  <input
+                    id="boxTagInput"
+                    class="input input-small"
+                    type="text"
+                    placeholder="Study · Life · Web"
+                  />
+                </div>
+                <div class="field">
+                  <label for="boxIconInput">Icon (emoji)</label>
+                  <input
+                    id="boxIconInput"
+                    class="input input-small"
+                    type="text"
+                    maxlength="3"
+                    placeholder="📚"
+                  />
+                </div>
+                <div class="field">
+                  <label>Accent color</label>
+                  <div id="colorRow" class="color-row">
+                    <button type="button" class="color-pill selected" data-color="cyan"></button>
+                    <button type="button" class="color-pill" data-color="purple"></button>
+                    <button type="button" class="color-pill" data-color="pink"></button>
+                    <button type="button" class="color-pill" data-color="green"></button>
+                    <button type="button" class="color-pill" data-color="orange"></button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="boxDescriptionInput">Details / notes</label>
+                  <textarea
+                    id="boxDescriptionInput"
+                    class="input input-small textarea-small"
+                    placeholder="এখানে লিংক লিখলে (https:// দিয়ে) ক্লিক করলে সরাসরি চলে যাবে।"
+                  ></textarea>
+                </div>
+                <div class="status-text" id="boxStatus"></div>
+                <button id="createBoxBtn" class="button" style="width:100%;justify-content:center;">
+                  Create box 🚀
+                </button>
+              </div>
+
+              <!-- Password page -->
+              <div class="menu-page hidden" data-page="password" id="menuPagePassword">
+                <h3>Password</h3>
+                <p>এখান থেকে master password পরিবর্তন করতে পারবে।</p>
+                <form id="passwordForm">
+                  <div class="field">
+                    <label for="currentPasswordInput">Current password</label>
+                    <input
+                      id="currentPasswordInput"
+                      type="password"
+                      class="input input-small"
+                      placeholder="পুরোনো পাসওয়ার্ড"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="newPasswordInput">New password</label>
+                    <input
+                      id="newPasswordInput"
+                      type="password"
+                      class="input input-small"
+                      placeholder="নতুন পাসওয়ার্ড"
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="confirmPasswordInput">Confirm new password</label>
+                    <input
+                      id="confirmPasswordInput"
+                      type="password"
+                      class="input input-small"
+                      placeholder="আবার লিখো"
+                    />
+                  </div>
+                  <div class="status-text" id="passwordStatus"></div>
+                  <button type="submit" class="button" style="width:100%;justify-content:center;">
+                    Update password 🔑
+                  </button>
+                </form>
+              </div>
+
+              <!-- Logout page -->
+              <div class="menu-page hidden" data-page="logout" id="menuPageLogout">
+                <h3>Logout</h3>
+                <p class="logout-text">
+                  এই ডিভাইস থেকে Yasin Info. workspace থেকে বের হয়ে যাবে।
+                  আবার ঢুকতে master password দিতে হবে।
+                </p>
+                <div class="logout-actions">
+                  <button id="logoutCancelBtn" class="button-ghost" style="flex:1;">
+                    ← Back
+                  </button>
+                  <button id="logoutConfirmBtn" class="button" style="flex:1;">
+                    Log out 🚪
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -------- Storage keys --------
+    const PROFILE_KEY = "yasin_info_profile_v1";
+    const BOX_KEY = "yasin_info_boxes_v2";
+    const PASSWORD_KEY = "yasin_info_master_password_v1";
+    const SESSION_KEY = "yasin_info_logged_in_v1";
+
+    const DEFAULT_PASSWORD = "yasin123"; // প্রথম default পাসওয়ার্ড
+
+    // -------- DOM refs --------
+    const loginScreen = document.getElementById("loginScreen");
+    const dashboard = document.getElementById("dashboard");
+    const loginForm = document.getElementById("loginForm");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginError = document.getElementById("loginError");
+
+    const menuButton = document.getElementById("menuButton");
+    const menuOverlay = document.getElementById("menuOverlay");
+    const closeMenuBtn = document.getElementById("closeMenuBtn");
+
+    const brandAvatarInitial = document.getElementById("brandAvatarInitial");
+    const brandAvatarImg = document.getElementById("brandAvatarImg");
+    const brandSub = document.getElementById("brandSub");
+
+    const boxGrid = document.getElementById("boxGrid");
+
+    // Menu tabs & pages
+    const menuTabs = document.querySelectorAll(".menu-tab");
+    const menuPages = document.querySelectorAll(".menu-page");
+
+    // Profile form
+    const profileForm = document.getElementById("profileForm");
+    const profileNameInput = document.getElementById("profileNameInput");
+    const profileAvatarInput = document.getElementById("profileAvatarInput");
+    const profileStatus = document.getElementById("profileStatus");
+
+    // Box creator
+    const boxTitleInput = document.getElementById("boxTitleInput");
+    const boxTagInput = document.getElementById("boxTagInput");
+    const boxIconInput = document.getElementById("boxIconInput");
+    const boxDescriptionInput = document.getElementById("boxDescriptionInput");
+    const colorRow = document.getElementById("colorRow");
+    const createBoxBtn = document.getElementById("createBoxBtn");
+    const boxStatus = document.getElementById("boxStatus");
+
+    // Password form
+    const passwordForm = document.getElementById("passwordForm");
+    const currentPasswordInput = document.getElementById("currentPasswordInput");
+    const newPasswordInput = document.getElementById("newPasswordInput");
+    const confirmPasswordInput = document.getElementById("confirmPasswordInput");
+    const passwordStatus = document.getElementById("passwordStatus");
+
+    // Logout page
+    const logoutConfirmBtn = document.getElementById("logoutConfirmBtn");
+    const logoutCancelBtn = document.getElementById("logoutCancelBtn");
+
+    let boxes = [];
+    let profile = { name: "Yasin", avatarUrl: "" };
+    let selectedColor = "cyan";
+
+    // -------- Helper: click sound (সব বাটনে) --------
+    let audioCtx = null;
+    function playClickSound() {
+      try {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          audioCtx = new AC();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "square";
+        osc.frequency.value = 650;
+        const now = audioCtx.currentTime;
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.09);
+      } catch (e) {
+        // কিছু না, সাউন্ড না হলেও চলবে
+      }
+    }
+
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      playClickSound();
+    });
+
+    // -------- General helpers --------
+    function getStoredPassword() {
+      return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+    }
+
+    function savePassword(newPass) {
+      localStorage.setItem(PASSWORD_KEY, newPass);
+    }
+
+    function loadProfile() {
+      try {
+        const raw = localStorage.getItem(PROFILE_KEY);
+        profile = raw ? JSON.parse(raw) : { name: "Yasin", avatarUrl: "" };
+      } catch {
+        profile = { name: "Yasin", avatarUrl: "" };
+      }
+      renderProfile();
+    }
+
+    function saveProfile() {
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    }
+
+    function renderProfile() {
+      const name = profile.name || "Yasin";
+      brandSub.textContent = name + " · private workspace";
+
+      const initial = name.trim()[0] || "Y";
+      brandAvatarInitial.textContent = initial.toUpperCase();
+
+      if (profile.avatarUrl && profile.avatarUrl.trim()) {
+        brandAvatarImg.src = profile.avatarUrl.trim();
+        brandAvatarImg.style.display = "block";
+        brandAvatarInitial.style.display = "none";
+      } else {
+        brandAvatarImg.src = "";
+        brandAvatarImg.style.display = "none";
+        brandAvatarInitial.style.display = "block";
+      }
+    }
+
+    function loadBoxes() {
+      try {
+        const raw = localStorage.getItem(BOX_KEY);
+        boxes = raw ? JSON.parse(raw) : [];
+      } catch {
+        boxes = [];
+      }
+      renderBoxes();
+    }
+
+    function saveBoxes() {
+      localStorage.setItem(BOX_KEY, JSON.stringify(boxes));
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Description এর ভেতরের লিংক ক্লিকযোগ্য করা
+    function linkify(text) {
+      const escaped = escapeHtml(text);
+      const urlRegex = /(https?:\/\/[^\s<]+)/g;
+      return escaped
+        .replace(
+          urlRegex,
+          '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+        )
+        .replace(/\n/g, "<br />");
+    }
+
+    function renderBoxes() {
+      boxGrid.innerHTML = "";
+
+      if (boxes.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-text";
+        empty.textContent =
+          "এখনো কোনো বক্স তৈরি করোনি। Menu → “ইনফরমেশন বক্স” থেকে প্রথম বক্স বানিয়ে ফেলো।";
+        boxGrid.appendChild(empty);
+        return;
+      }
+
+      boxes.forEach((box) => {
+        const card = document.createElement("article");
+        card.className = "box-card";
+        card.dataset.color = box.color || "cyan";
+
+        card.innerHTML = `
+          <div class="box-header-row">
+            <div>
+              <div class="box-label">
+                <span class="box-label-dot"></span>
+                <span>${escapeHtml(box.tag || "Untitled")}</span>
+              </div>
+              <div class="box-title">${escapeHtml(box.title || "No title")}</div>
+            </div>
+            <div class="box-icon-pill">
+              ${escapeHtml(box.icon || "📦")}
+            </div>
+          </div>
+          <div class="box-description">${linkify(box.description || "")}</div>
+          <div class="box-footer-row">
+            <div class="box-tag-pill">
+              <span class="box-tag-dot"></span>
+              <span>${escapeHtml(box.tag || "Personal")}</span>
+            </div>
+            <div class="box-actions">
+              <button class="icon-button" data-action="edit" data-id="${box.id}">
+                ✏️ Edit
+              </button>
+              <button class="icon-button icon-button-danger" data-action="delete" data-id="${box.id}">
+                🗑 Delete
+              </button>
+            </div>
+          </div>
+        `;
+
+        boxGrid.appendChild(card);
+      });
+    }
+
+    function setSelectedColor(color) {
+      selectedColor = color;
+      Array.from(colorRow.querySelectorAll(".color-pill")).forEach((pill) => {
+        pill.classList.toggle("selected", pill.dataset.color === color);
+      });
+    }
+
+    function showDashboard() {
+      loginScreen.classList.add("hidden");
+      dashboard.classList.remove("hidden");
+      menuButton.classList.remove("hidden");
+    }
+
+    function showLogin() {
+      dashboard.classList.add("hidden");
+      loginScreen.classList.remove("hidden");
+      menuButton.classList.add("hidden");
+      passwordInput.value = "";
+    }
+
+    function openMenu() {
+      menuOverlay.classList.remove("hidden");
+      profileStatus.textContent = "";
+      boxStatus.textContent = "";
+      passwordStatus.textContent = "";
+
+      // প্রোফাইল ডাটা ফর্মে বসানো
+      profileNameInput.value = profile.name || "";
+      profileAvatarInput.value = profile.avatarUrl || "";
+
+      showMenuPage("profile");
+    }
+
+    function closeMenu() {
+      menuOverlay.classList.add("hidden");
+    }
+
+    function showMenuPage(page) {
+      menuTabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.page === page);
+      });
+      menuPages.forEach((pg) => {
+        pg.classList.toggle("hidden", pg.dataset.page !== page);
+      });
+    }
+
+    function performLogout() {
+      sessionStorage.removeItem(SESSION_KEY);
+      closeMenu();
+      showLogin();
+    }
+
+    // -------- Event listeners --------
+
+    // Login
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const value = passwordInput.value;
+
+      if (value === getStoredPassword()) {
+        loginError.textContent = "";
+        passwordInput.classList.remove("input-error");
+        sessionStorage.setItem(SESSION_KEY, "true");
+        showDashboard();
+        loadProfile();
+        loadBoxes();
+      } else {
+        loginError.textContent = "পাসওয়ার্ড ভুল হয়েছে, আবার চেষ্টা করো।";
+        passwordInput.classList.add("input-error");
+        passwordInput.focus();
+      }
+    });
+
+    // Menu open / close
+    menuButton.addEventListener("click", openMenu);
+    closeMenuBtn.addEventListener("click", closeMenu);
+
+    // Menu tabs
+    menuTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        showMenuPage(tab.dataset.page);
+      });
+    });
+
+    // Profile form
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = profileNameInput.value.trim() || "Yasin";
+      const avatarUrl = profileAvatarInput.value.trim();
+
+      profile.name = name;
+      profile.avatarUrl = avatarUrl;
+      saveProfile();
+      renderProfile();
+
+      profileStatus.textContent = "প্রোফাইল আপডেট হয়েছে।";
+      profileStatus.classList.remove("err");
+      profileStatus.classList.add("ok");
+    });
+
+    // Color select
+    colorRow.addEventListener("click", (e) => {
+      const pill = e.target.closest(".color-pill");
+      if (!pill) return;
+      setSelectedColor(pill.dataset.color);
+    });
+
+    // Create box
+    createBoxBtn.addEventListener("click", () => {
+      const title = boxTitleInput.value.trim();
+      if (!title) {
+        boxStatus.textContent = "Title লিখতে হবে।";
+        boxStatus.classList.add("err");
+        boxStatus.classList.remove("ok");
+        boxTitleInput.focus();
+        return;
+      }
+
+      const tag = boxTagInput.value.trim() || "Personal";
+      const icon = boxIconInput.value.trim() || "📦";
+      const description = boxDescriptionInput.value.trim();
+
+      const box = {
+        id: Date.now().toString(36),
+        title,
+        tag,
+        icon,
+        description,
+        color: selectedColor || "cyan",
+      };
+
+      boxes.unshift(box);
+      saveBoxes();
+      renderBoxes();
+
+      // reset form
+      boxTitleInput.value = "";
+      boxTagInput.value = "";
+      boxIconInput.value = "";
+      boxDescriptionInput.value = "";
+      setSelectedColor("cyan");
+
+      boxStatus.textContent = "নতুন বক্স তৈরি হয়েছে।";
+      boxStatus.classList.remove("err");
+      boxStatus.classList.add("ok");
+    });
+
+    // Edit / delete box
+    boxGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+      const index = boxes.findIndex((b) => b.id === id);
+      if (index === -1) return;
+
+      if (action === "delete") {
+        const ok = confirm("এই বক্সটা ডিলিট করতে চাও?");
+        if (!ok) return;
+        boxes.splice(index, 1);
+        saveBoxes();
+        renderBoxes();
+      } else if (action === "edit") {
+        const box = boxes[index];
+        const newTitle = prompt("Title:", box.title) ?? box.title;
+        const newTag = prompt("Tag / category:", box.tag) ?? box.tag;
+        const newIcon = prompt("Icon (emoji):", box.icon) ?? box.icon;
+        const newDesc =
+          prompt("Short description / notes:", box.description) ?? box.description;
+
+        boxes[index] = {
+          ...box,
+          title: newTitle.trim() || box.title,
+          tag: newTag.trim() || box.tag,
+          icon: newIcon.trim() || box.icon,
+          description: newDesc.trim() || box.description,
+        };
+
+        saveBoxes();
+        renderBoxes();
+      }
+    });
+
+    // Password change
+    passwordForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const current = currentPasswordInput.value;
+      const next = newPasswordInput.value;
+      const confirmNext = confirmPasswordInput.value;
+
+      passwordStatus.classList.remove("ok", "err");
+
+      if (current !== getStoredPassword()) {
+        passwordStatus.textContent = "বর্তমান পাসওয়ার্ড সঠিক না।";
+        passwordStatus.classList.add("err");
+        return;
+      }
+      if (!next || next.length < 4) {
+        passwordStatus.textContent = "নতুন পাসওয়ার্ড অন্তত ৪ অক্ষরের হওয়া ভালো।";
+        passwordStatus.classList.add("err");
+        return;
+      }
+      if (next !== confirmNext) {
+        passwordStatus.textContent = "দুইবার লেখা পাসওয়ার্ড মিলছে না।";
+        passwordStatus.classList.add("err");
+        return;
+      }
+
+      savePassword(next);
+      currentPasswordInput.value = "";
+      newPasswordInput.value = "";
+      confirmPasswordInput.value = "";
+      passwordStatus.textContent = "পাসওয়ার্ড আপডেট হয়েছে।";
+      passwordStatus.classList.add("ok");
+    });
+
+    // Logout page actions
+    logoutConfirmBtn.addEventListener("click", () => {
+      performLogout();
+    });
+
+    logoutCancelBtn.addEventListener("click", () => {
+      showMenuPage("profile");
+    });
+
+    // Auto session login
+    window.addEventListener("DOMContentLoaded", () => {
+      if (sessionStorage.getItem(SESSION_KEY) === "true") {
+        showDashboard();
+        loadProfile();
+        loadBoxes();
+      } else {
+        showLogin();
+      }
+    });
+
+    // Avatar load error হলে আবার লেটার দেখাবে
+    brandAvatarImg.addEventListener("error", () => {
+      brandAvatarImg.style.display = "none";
+      brandAvatarInitial.style.display = "block";
+    });
+  </script>
+</body>
+  </html>
