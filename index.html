@@ -250,6 +250,7 @@
       outline: none;
       transition: border-color var(--fast), box-shadow var(--fast),
         background var(--fast), transform var(--fast);
+      appearance: none;
     }
 
     .input:focus {
@@ -258,9 +259,15 @@
       transform: translateY(-0.5px);
     }
 
-    .input-error {
-      border-color: var(--danger) !important;
-      box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.8);
+    select.input {
+      background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+      background-position:
+        calc(100% - 14px) 50%,
+        calc(100% - 9px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 26px;
     }
 
     .error-text {
@@ -305,6 +312,7 @@
       gap: 8px;
       min-height: 120px;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .box-card::before {
@@ -317,7 +325,6 @@
       pointer-events: none;
     }
 
-    /* ভিন্ন ভিন্ন এনিমেশন */
     .box-card[data-color="cyan"] {
       background-image:
         radial-gradient(circle at 0% 0%, rgba(56,189,248,0.3), transparent 55%),
@@ -544,7 +551,6 @@
     .box-card[data-color="green"] .box-title { color: #dcfce7; }
     .box-card[data-color="orange"] .box-title { color: #ffedd5; }
 
-    /* Scrollbar */
     .box-description::-webkit-scrollbar { width: 4px; }
     .box-description::-webkit-scrollbar-thumb {
       background: rgba(148, 163, 184, 0.8);
@@ -705,36 +711,6 @@
       resize: vertical;
     }
 
-    .color-row {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .color-pill {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: border-color var(--fast), transform var(--fast),
-        opacity var(--fast), box-shadow var(--fast);
-    }
-
-    .color-pill[data-color="cyan"] { background: var(--accent-1); }
-    .color-pill[data-color="purple"] { background: var(--accent-2); }
-    .color-pill[data-color="pink"] { background: var(--accent-3); }
-    .color-pill[data-color="green"] { background: var(--accent-4); }
-    .color-pill[data-color="orange"] { background: var(--accent-5); }
-
-    .color-pill.selected {
-      border-color: #e5e7eb;
-      opacity: 1;
-      transform: scale(1.08);
-      box-shadow: 0 0 14px rgba(248, 250, 252, 0.7);
-    }
-
     .status-text {
       font-size: 11px;
       color: var(--text-soft);
@@ -782,7 +758,7 @@
       <div class="login-inner">
         <h1 class="login-title">Welcome back, Yasin</h1>
         <p class="login-sub">
-          এখানে থাকবে শুধু তোমার ব্যক্তিগত বক্সগুলো। ঢুকতে আগে পাসওয়ার্ড দরকার।
+          এখানে থাকবে শুধু তোমার ব্যক্তিগত বায়ো লিংক বক্সগুলো। ঢুকতে আগে পাসওয়ার্ড দরকার।
         </p>
 
         <form id="loginForm" class="login-form">
@@ -809,7 +785,7 @@
       </div>
     </section>
 
-    <!-- Dashboard : শুধু বক্স -->
+    <!-- Dashboard : শুধু লিংক বক্স -->
     <section id="dashboard" class="card hidden">
       <div id="boxGrid" class="grid"></div>
     </section>
@@ -822,7 +798,7 @@
             <div>
               <div class="menu-title">Control menu</div>
               <div class="menu-header-sub">
-                প্রোফাইল, ইনফো বক্স, পাসওয়ার্ড, লগআউট – সব এখান থেকে কনট্রোল হবে।
+                প্রোফাইল, ইনফরমেশন বক্স, পাসওয়ার্ড, লগআউট – সব এখান থেকে কনট্রোল হবে।
               </div>
             </div>
             <button id="closeMenuBtn" class="button-ghost" style="padding:5px 10px;font-size:11px;">
@@ -883,60 +859,52 @@
                 </form>
               </div>
 
-              <!-- Box creation page -->
+              <!-- Link box creation page -->
               <div class="menu-page hidden" data-page="boxes" id="menuPageBoxes">
-                <h3>New information box</h3>
-                <p>একটা বক্স মানে তোমার আলাদা একটা সেকশন – যেমন My web, Study plan ইত্যাদি।</p>
+                <h3>নতুন লিংক যোগ করুন</h3>
+                <p>এটা Bio Link এর মত – আইকন বেছে নিয়ে টাইটেল আর URL দিলেই একটি বক্স তৈরি হবে।</p>
 
                 <div class="field">
-                  <label for="boxTitleInput">Title</label>
+                  <label for="linkTypeSelect">আইকন</label>
+                  <select id="linkTypeSelect" class="input input-small">
+                    <option value="other">অন্যান্য</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="twitter">Twitter/X</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="telegram">Telegram</option>
+                    <option value="github">GitHub</option>
+                    <option value="website">Website</option>
+                    <option value="email">Email</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="linkTitleInput">টাইটেল</label>
                   <input
-                    id="boxTitleInput"
+                    id="linkTitleInput"
                     class="input input-small"
                     type="text"
-                    placeholder="যেমন: My web"
+                    placeholder="আমার Facebook পেজ"
                   />
                 </div>
+
                 <div class="field">
-                  <label for="boxTagInput">Tag / category</label>
+                  <label for="linkUrlInput">URL</label>
                   <input
-                    id="boxTagInput"
+                    id="linkUrlInput"
                     class="input input-small"
                     type="text"
-                    placeholder="Study · Life · Web"
+                    placeholder="https://facebook.com/yourpage"
                   />
                 </div>
-                <div class="field">
-                  <label for="boxIconInput">Icon (emoji)</label>
-                  <input
-                    id="boxIconInput"
-                    class="input input-small"
-                    type="text"
-                    maxlength="3"
-                    placeholder="📚"
-                  />
-                </div>
-                <div class="field">
-                  <label>Accent color</label>
-                  <div id="colorRow" class="color-row">
-                    <button type="button" class="color-pill selected" data-color="cyan"></button>
-                    <button type="button" class="color-pill" data-color="purple"></button>
-                    <button type="button" class="color-pill" data-color="pink"></button>
-                    <button type="button" class="color-pill" data-color="green"></button>
-                    <button type="button" class="color-pill" data-color="orange"></button>
-                  </div>
-                </div>
-                <div class="field">
-                  <label for="boxDescriptionInput">Details / notes</label>
-                  <textarea
-                    id="boxDescriptionInput"
-                    class="input input-small textarea-small"
-                    placeholder="এখানে লিংক লিখলে (https:// দিয়ে) ক্লিক করলে সরাসরি চলে যাবে।"
-                  ></textarea>
-                </div>
+
                 <div class="status-text" id="boxStatus"></div>
                 <button id="createBoxBtn" class="button" style="width:100%;justify-content:center;">
-                  Create box 🚀
+                  + লিংক যোগ করুন
                 </button>
               </div>
 
@@ -1006,11 +974,99 @@
   <script>
     // -------- Storage keys --------
     const PROFILE_KEY = "yasin_info_profile_v1";
-    const BOX_KEY = "yasin_info_boxes_v2";
+    const BOX_KEY = "yasin_info_boxes_v3_links";
     const PASSWORD_KEY = "yasin_info_master_password_v1";
     const SESSION_KEY = "yasin_info_logged_in_v1";
 
-    const DEFAULT_PASSWORD = "yasin123"; // প্রথম default পাসওয়ার্ড
+    const DEFAULT_PASSWORD = "yasin123";
+
+    // Link presets (icon + color + placeholder)
+    const LINK_PRESETS = {
+      other: {
+        label: "অন্যান্য",
+        icon: "🔗",
+        color: "cyan",
+        title: "আমার লিংক",
+        url: "https://example.com"
+      },
+      facebook: {
+        label: "Facebook",
+        icon: "📘",
+        color: "cyan",
+        title: "আমার Facebook পেজ",
+        url: "https://facebook.com/yourpage"
+      },
+      instagram: {
+        label: "Instagram",
+        icon: "📸",
+        color: "pink",
+        title: "আমার Instagram প্রোফাইল",
+        url: "https://instagram.com/username"
+      },
+      youtube: {
+        label: "YouTube",
+        icon: "▶️",
+        color: "orange",
+        title: "আমার YouTube চ্যানেল",
+        url: "https://youtube.com/@yourchannel"
+      },
+      tiktok: {
+        label: "TikTok",
+        icon: "🎵",
+        color: "purple",
+        title: "আমার TikTok প্রোফাইল",
+        url: "https://www.tiktok.com/@username"
+      },
+      twitter: {
+        label: "Twitter / X",
+        icon: "🐦",
+        color: "cyan",
+        title: "আমার Twitter (X) প্রোফাইল",
+        url: "https://x.com/username"
+      },
+      linkedin: {
+        label: "LinkedIn",
+        icon: "💼",
+        color: "cyan",
+        title: "আমার LinkedIn প্রোফাইল",
+        url: "https://linkedin.com/in/username"
+      },
+      whatsapp: {
+        label: "WhatsApp",
+        icon: "💬",
+        color: "green",
+        title: "WhatsApp chat",
+        url: "https://wa.me/8801XXXXXXXXX"
+      },
+      telegram: {
+        label: "Telegram",
+        icon: "📨",
+        color: "cyan",
+        title: "আমার Telegram",
+        url: "https://t.me/username"
+      },
+      github: {
+        label: "GitHub",
+        icon: "🐱",
+        color: "purple",
+        title: "আমার GitHub প্রোফাইল",
+        url: "https://github.com/username"
+      },
+      website: {
+        label: "Website",
+        icon: "🌐",
+        color: "orange",
+        title: "আমার ওয়েবসাইট",
+        url: "https://yourwebsite.com"
+      },
+      email: {
+        label: "Email",
+        icon: "✉️",
+        color: "pink",
+        title: "আমাকে ইমেইল করুন",
+        url: "mailto:you@example.com"
+      }
+    };
 
     // -------- DOM refs --------
     const loginScreen = document.getElementById("loginScreen");
@@ -1029,7 +1085,6 @@
 
     const boxGrid = document.getElementById("boxGrid");
 
-    // Menu tabs & pages
     const menuTabs = document.querySelectorAll(".menu-tab");
     const menuPages = document.querySelectorAll(".menu-page");
 
@@ -1039,12 +1094,10 @@
     const profileAvatarInput = document.getElementById("profileAvatarInput");
     const profileStatus = document.getElementById("profileStatus");
 
-    // Box creator
-    const boxTitleInput = document.getElementById("boxTitleInput");
-    const boxTagInput = document.getElementById("boxTagInput");
-    const boxIconInput = document.getElementById("boxIconInput");
-    const boxDescriptionInput = document.getElementById("boxDescriptionInput");
-    const colorRow = document.getElementById("colorRow");
+    // Link box creator
+    const linkTypeSelect = document.getElementById("linkTypeSelect");
+    const linkTitleInput = document.getElementById("linkTitleInput");
+    const linkUrlInput = document.getElementById("linkUrlInput");
     const createBoxBtn = document.getElementById("createBoxBtn");
     const boxStatus = document.getElementById("boxStatus");
 
@@ -1061,9 +1114,8 @@
 
     let boxes = [];
     let profile = { name: "Yasin", avatarUrl: "" };
-    let selectedColor = "cyan";
 
-    // -------- Helper: click sound (সব বাটনে) --------
+    // -------- Click sound (সব বাটনে) --------
     let audioCtx = null;
     function playClickSound() {
       try {
@@ -1083,9 +1135,7 @@
         gain.connect(audioCtx.destination);
         osc.start(now);
         osc.stop(now + 0.09);
-      } catch (e) {
-        // কিছু না, সাউন্ড না হলেও চলবে
-      }
+      } catch (e) {}
     }
 
     document.addEventListener("click", (e) => {
@@ -1158,7 +1208,6 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Description এর ভেতরের লিংক ক্লিকযোগ্য করা
     function linkify(text) {
       const escaped = escapeHtml(text);
       const urlRegex = /(https?:\/\/[^\s<]+)/g;
@@ -1177,34 +1226,47 @@
         const empty = document.createElement("div");
         empty.className = "empty-text";
         empty.textContent =
-          "এখনো কোনো বক্স তৈরি করোনি। Menu → “ইনফরমেশন বক্স” থেকে প্রথম বক্স বানিয়ে ফেলো।";
+          "এখনো কোনো লিংক নেই। Menu → “ইনফরমেশন বক্স” থেকে প্রথম লিংক যোগ করো।";
         boxGrid.appendChild(empty);
         return;
       }
 
       boxes.forEach((box) => {
+        const preset = LINK_PRESETS[box.type] || LINK_PRESETS.other;
+        const tagLabel = preset.label;
+        const color = box.color || preset.color || "cyan";
+
         const card = document.createElement("article");
         card.className = "box-card";
-        card.dataset.color = box.color || "cyan";
+        card.dataset.color = color;
+        card.dataset.url = box.url || "";
+
+        let descHtml = "";
+        if (box.url) {
+          const safeUrl = escapeHtml(box.url);
+          descHtml = `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer">${safeUrl}</a>`;
+        } else {
+          descHtml = linkify(box.description || "");
+        }
 
         card.innerHTML = `
           <div class="box-header-row">
             <div>
               <div class="box-label">
                 <span class="box-label-dot"></span>
-                <span>${escapeHtml(box.tag || "Untitled")}</span>
+                <span>${escapeHtml(tagLabel)}</span>
               </div>
-              <div class="box-title">${escapeHtml(box.title || "No title")}</div>
+              <div class="box-title">${escapeHtml(box.title || tagLabel)}</div>
             </div>
             <div class="box-icon-pill">
-              ${escapeHtml(box.icon || "📦")}
+              ${escapeHtml(box.icon || preset.icon || "🔗")}
             </div>
           </div>
-          <div class="box-description">${linkify(box.description || "")}</div>
+          <div class="box-description">${descHtml}</div>
           <div class="box-footer-row">
             <div class="box-tag-pill">
               <span class="box-tag-dot"></span>
-              <span>${escapeHtml(box.tag || "Personal")}</span>
+              <span>${escapeHtml(tagLabel)}</span>
             </div>
             <div class="box-actions">
               <button class="icon-button" data-action="edit" data-id="${box.id}">
@@ -1218,13 +1280,6 @@
         `;
 
         boxGrid.appendChild(card);
-      });
-    }
-
-    function setSelectedColor(color) {
-      selectedColor = color;
-      Array.from(colorRow.querySelectorAll(".color-pill")).forEach((pill) => {
-        pill.classList.toggle("selected", pill.dataset.color === color);
       });
     }
 
@@ -1247,10 +1302,10 @@
       boxStatus.textContent = "";
       passwordStatus.textContent = "";
 
-      // প্রোফাইল ডাটা ফর্মে বসানো
       profileNameInput.value = profile.name || "";
       profileAvatarInput.value = profile.avatarUrl || "";
 
+      applyPresetPlaceholders();
       showMenuPage("profile");
     }
 
@@ -1271,6 +1326,16 @@
       sessionStorage.removeItem(SESSION_KEY);
       closeMenu();
       showLogin();
+    }
+
+    function applyPresetPlaceholders() {
+      const preset = LINK_PRESETS[linkTypeSelect.value] || LINK_PRESETS.other;
+      if (!linkTitleInput.value) {
+        linkTitleInput.placeholder = preset.title;
+      }
+      if (!linkUrlInput.value) {
+        linkUrlInput.placeholder = preset.url;
+      }
     }
 
     // -------- Event listeners --------
@@ -1321,35 +1386,41 @@
       profileStatus.classList.add("ok");
     });
 
-    // Color select
-    colorRow.addEventListener("click", (e) => {
-      const pill = e.target.closest(".color-pill");
-      if (!pill) return;
-      setSelectedColor(pill.dataset.color);
-    });
+    // Link type change -> placeholders
+    linkTypeSelect.addEventListener("change", applyPresetPlaceholders);
+    applyPresetPlaceholders();
 
-    // Create box
+    // Create link box
     createBoxBtn.addEventListener("click", () => {
-      const title = boxTitleInput.value.trim();
-      if (!title) {
-        boxStatus.textContent = "Title লিখতে হবে।";
+      const type = linkTypeSelect.value || "other";
+      const preset = LINK_PRESETS[type] || LINK_PRESETS.other;
+
+      let title = linkTitleInput.value.trim();
+      let url = linkUrlInput.value.trim();
+
+      if (!url) {
+        boxStatus.textContent = "URL লিখতে হবে।";
         boxStatus.classList.add("err");
         boxStatus.classList.remove("ok");
-        boxTitleInput.focus();
+        linkUrlInput.focus();
         return;
       }
 
-      const tag = boxTagInput.value.trim() || "Personal";
-      const icon = boxIconInput.value.trim() || "📦";
-      const description = boxDescriptionInput.value.trim();
+      if (!/^https?:\/\//i.test(url) && !url.startsWith("mailto:")) {
+        url = "https://" + url;
+      }
+
+      if (!title) {
+        title = preset.title;
+      }
 
       const box = {
         id: Date.now().toString(36),
+        type,
         title,
-        tag,
-        icon,
-        description,
-        color: selectedColor || "cyan",
+        url,
+        color: preset.color,
+        icon: preset.icon
       };
 
       boxes.unshift(box);
@@ -1357,51 +1428,55 @@
       renderBoxes();
 
       // reset form
-      boxTitleInput.value = "";
-      boxTagInput.value = "";
-      boxIconInput.value = "";
-      boxDescriptionInput.value = "";
-      setSelectedColor("cyan");
+      linkTitleInput.value = "";
+      linkUrlInput.value = "";
+      linkTypeSelect.value = type; // একই টাইপ থাকুক
+      applyPresetPlaceholders();
 
-      boxStatus.textContent = "নতুন বক্স তৈরি হয়েছে।";
+      boxStatus.textContent = "নতুন লিংক যোগ হয়েছে।";
       boxStatus.classList.remove("err");
       boxStatus.classList.add("ok");
     });
 
-    // Edit / delete box
+    // Card click -> open URL, অথবা edit/delete
     boxGrid.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-action]");
-      if (!btn) return;
+      if (btn) {
+        const id = btn.dataset.id;
+        const action = btn.dataset.action;
+        const index = boxes.findIndex((b) => b.id === id);
+        if (index === -1) return;
 
-      const id = btn.dataset.id;
-      const action = btn.dataset.action;
-      const index = boxes.findIndex((b) => b.id === id);
-      if (index === -1) return;
+        if (action === "delete") {
+          const ok = confirm("এই লিংক বক্সটা ডিলিট করতে চাও?");
+          if (!ok) return;
+          boxes.splice(index, 1);
+          saveBoxes();
+          renderBoxes();
+        } else if (action === "edit") {
+          const box = boxes[index];
+          const newTitle = prompt("Title:", box.title || "") ?? box.title;
+          const newUrl = prompt("URL:", box.url || "") ?? box.url;
 
-      if (action === "delete") {
-        const ok = confirm("এই বক্সটা ডিলিট করতে চাও?");
-        if (!ok) return;
-        boxes.splice(index, 1);
-        saveBoxes();
-        renderBoxes();
-      } else if (action === "edit") {
-        const box = boxes[index];
-        const newTitle = prompt("Title:", box.title) ?? box.title;
-        const newTag = prompt("Tag / category:", box.tag) ?? box.tag;
-        const newIcon = prompt("Icon (emoji):", box.icon) ?? box.icon;
-        const newDesc =
-          prompt("Short description / notes:", box.description) ?? box.description;
+          boxes[index] = {
+            ...box,
+            title: newTitle.trim() || box.title,
+            url: newUrl.trim() || box.url
+          };
 
-        boxes[index] = {
-          ...box,
-          title: newTitle.trim() || box.title,
-          tag: newTag.trim() || box.tag,
-          icon: newIcon.trim() || box.icon,
-          description: newDesc.trim() || box.description,
-        };
+          saveBoxes();
+          renderBoxes();
+        }
+        return;
+      }
 
-        saveBoxes();
-        renderBoxes();
+      if (e.target.closest("a")) return; // সরাসরি লিংক ক্লিক হলে আরেকবার খুলবে না
+
+      const card = e.target.closest(".box-card");
+      if (!card) return;
+      const url = card.dataset.url;
+      if (url) {
+        window.open(url, "_blank");
       }
     });
 
@@ -1458,7 +1533,7 @@
       }
     });
 
-    // Avatar load error হলে আবার লেটার দেখাবে
+    // Avatar fallback
     brandAvatarImg.addEventListener("error", () => {
       brandAvatarImg.style.display = "none";
       brandAvatarInitial.style.display = "block";
